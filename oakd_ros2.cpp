@@ -22,7 +22,7 @@ void img_pub_func(rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr l_img_pu
             l_img_pub->publish(l_img);
             l_img_avail = false;
         }
-        std::this_thread::sleep_for(10ms);
+        std::this_thread::sleep_for(5ms);
     }
 }
 
@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
     monoRight->setFps(20);
     imu->enableIMUSensor(dai::IMUSensor::ACCELEROMETER_RAW, 200);
     imu->enableIMUSensor(dai::IMUSensor::GYROSCOPE_RAW, 200);
-    imu->setBatchReportThreshold(5);
+    imu->setBatchReportThreshold(1);
     imu->setMaxBatchReports(10);
 
     // Linking
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
     // Output queue will be used to get the grayscale frames from the output defined above
     auto qLeft = device.getOutputQueue("left", 2, false);
     auto qRight = device.getOutputQueue("right", 2, false);
-    auto imuQueue = device.getOutputQueue("imu", 50, false);
+    auto imuQueue = device.getOutputQueue("imu", 20, false);
 
     while(rclcpp::ok()) {
         auto q_name = device.getQueueEvent();
